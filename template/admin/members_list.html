@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>会员管理</title>
+<link rel="stylesheet" href="skin/default/admin/css.css" type="text/css" media="screen" />
+</head>
+<body>
+<table width="100%" border="0" cellspacing="10" cellpadding="0" id="info_box">
+  <tr>
+    <td>
+<div class="info_title">{lang('用户模型管理')} - {lang('普通会员列表')}</div>
+<div class="info_content">
+<span class="tianjia"><a onclick="javascript:parent.windowsdig('{lang('添加会员')}','iframe:{url('members','add',1,array('siteid'=>$siteid))}','900px','600px','iframe')" href="#body">{lang('添加会员')}</a></span>
+  <table width="100%" class="table_site" border="0" cellpadding="0" cellspacing="0">
+  <tr class="table_site_bt">
+    <td width="50">ID</td>
+    <td width="100">{lang('用户名')}</td>
+    <td width="100">{lang('昵称')}</td>
+    <td width="80">{lang('会员级别')}</td>
+    <td>{lang('注册时间')}</td>
+    <td width="110">{lang('最后登录时间')}</td>
+    <td width="110">{lang('最后登录IP')}</td>
+    <td width="60">{lang('剩余积分')}</td>
+    <td width="60">{lang('成长点数')}</td>
+    <td width="100">{lang('操作管理')}</td>
+  </tr> 
+  {loop $row $item}
+  <tr>
+    <td>{$item['uid']}</td>
+    <td>{$item['username']}</td>
+    <td>{$item['realname']}</td>
+    <td>{$item['level']}</td>
+    <td>{date('Y-m-d H:i:s',$item['regtime'])}</td>
+    <td>{date('Y-m-d H:i:s',$item['lasttime'])}</td>
+    <td>{$item['lastip']}</td>
+    <td>2.00</td>
+    <td>2.00</td>
+    <td>{lang('修改')} | {lang('删除')}</td>
+  </tr>
+  {/loop}
+  </table>
+</div>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

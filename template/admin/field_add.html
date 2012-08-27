@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{lang('添加模型字段')}</title>
+<link rel="stylesheet" href="{$base_dir}skin/{$template_dir}/admin/css.css" type="text/css" media="screen" />
+<script type="text/javascript" src="{$base_dir}js/jquery.min.js"></script>
+<script type="text/javascript" src="{$base_dir}js/common.js"></script>
+<script type="text/javascript">
+jQuery(function($){
+  $("#formtype").change(function(){
+  	if($(this).val() == 'option'){
+		$('#args').css('display','');
+	}else{
+		$('#args').css('display','none');
+	}
+  });
+  $("#tbname").change(function(){
+  	$.ajax({
+	   type: "POST",
+	   url: "{url('field','getfields',1)}",
+	   data: "tbname="+$(this).val(),
+	   success: function(msg){
+		 $("#valname").append(msg);
+		 $("#viewname").append(msg);
+	   }
+	});
+  });
+});
+</script>
+</head>
+<body>
+<table width="100%" border="0" cellspacing="10" cellpadding="0" id="info_box">
+  <tr>
+    <td><form name="form1" action="" method="post"><input name="modelid" type="hidden" value="{$modelid}" />
+        <ul id="tab">
+          <li id="tab1" class="hover">{lang('添加模型字段')}</li>
+        </ul>
+        <div class="info_content">
+          <div id="con_tab_1">
+            <table width="100%" class="table_form" border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <th width="300">{lang('字段名')}</th>
+                <td><input type="text" class="input-text" name="name" id="name" size="30"/></td>
+              </tr>
+              <tr>
+                <th>{lang('别名')}</th>
+                <td><input type="text" class="input-text" name="cname" id="cname" size="30"/></td>
+              </tr>
+              <tr>
+                <th>{lang('类型')}</th>
+                <td><select name="formtype" id="formtype">
+                    <option value='' selected>请选择字段类型</option>
+                    <option value="text" >单行文本</option>
+                    <option value="textarea" >多行文本</option>
+                    <option value="editor" >编辑器</option>
+                    <option value="option" >选项</option>
+                    <option value="image" >图片</option>
+                    <option value="images" >多图片</option>
+                    <option value="int" >整数</option>
+                    <option value="number" >数字</option>
+                    <option value="datetime" >日期和时间</option>
+                    <option value="downfiles" >多文件上传</option>
+                  </select></td>
+              </tr>
+              <tr>
+                <th width="300"></th>
+                <td><table width="600" border="0" cellspacing="2" cellpadding="0" id="args" style="display:none;border:#fefefe solid 1px;">
+  <tr>
+    <td>数据源</td>
+    <td><input name="ds" type="radio" value="m" checked="checked" onclick="showhtml('dbview',0);showhtml('manual',1);" />
+      手动设置
+        <input type="radio" name="ds" value="a" onclick="showhtml('manual',0);showhtml('dbview',1);" />
+        数据库</td>
+  </tr>
+  <tbody id="manual" style="display:;">
+  <tr>
+    <td width="12%">选项列表</td>
+    <td width="88%"><textarea name="oplist" id="oplist" cols="45" rows="5">选项名1|选项值2
+选项名2|选项值2</textarea></td>
+  </tr>
+  </tbody>
+  <tbody id="dbview" style="display:none;">
+  <tr>
+    <td width="12%">选择数据表</td>
+    <td width="88%"><select name="tbname" id="tbname">
+    <option value="">请选择数据表</option>
+    {setOption('',$tables)}
+    </select> 值字段<select name="valname" id="valname">
+    </select>  显示名字段<select name="viewname" id="viewname">
+    </select></td>
+  </tr>
+  </tbody>
+  <tr>
+    <td>选项类型</td>
+    <td> <input name="optype" type="radio" value="radio" checked />
+      单选按钮   
+        <input name="optype" type="radio" value="checkbox" />
+        复选框   
+        <input name="optype" type="radio" value="select" />
+        下拉框   
+        <input name="optype" type="radio" value="mselect" />
+        多选列表框</td>
+  </tr>
+  <tr>
+    <td>字段类型</td>
+    <td><select name="fieldtype" id="fieldtype">
+      <option value="text">字符串型</option>
+      <option value="int">整数</option>
+    </select></td>
+  </tr>
+  <tr>
+    <td>默认值</td>
+    <td><input type="text" name="default" id="default" /></td>
+  </tr>
+</table></td>
+              </tr>
+              <tr>
+                <th>{lang('提示语')}</th>
+                <td><input type="text" class="input-text" name="tips" id="tips" size="30"/></td>
+              </tr>
+              <tr>
+                <th>{lang('最小长度')}</th>
+                <td><input name="minlength" type="text" class="input-text" id="minlength" value="0" size="30"/>
+                  0为不限制</td>
+              </tr>
+              <tr>
+                <th>{lang('最大长度')}</th>
+                <td><input name="maxlength" type="text" class="input-text" id="maxlength" value="0" size="30"/>
+                  0为不限制</td>
+              </tr>
+              <tr>
+                <th>{lang('验证规则')}</th>
+                <td><input type="text" class="input-text" name="pattern" id="pattern" size="30"/></td>
+              </tr>
+              <tr>
+                <th>{lang('错误提示')}</th>
+                <td><input type="text" class="input-text" name="errortips" id="errortips" size="30"/></td>
+              </tr>
+              <tr>
+                <th>{lang('是否唯一')}</th>
+                <td><input name="isunique" type="radio" class="input-text" value="1"/>
+                  是
+                  <input name="isunique" type="radio" class="input-text" value="0" checked="checked"/>
+                  否</td>
+              </tr>
+              <tr>
+                <th>{lang('允许搜索')}</th>
+                <td><input name="issearch" type="radio" class="input-text" value="1"/>
+                  是
+                  <input name="issearch" type="radio" class="input-text" value="0" checked="checked"/>
+                  否</td>
+              </tr>
+              <tr>
+                <th>{lang('前台投稿')}</th>
+                <td><input name="isadd" type="radio" class="input-text" value="1" checked="checked"/>
+                  是
+                  <input type="radio" class="input-text" name="isadd" value="0"/>
+                  否</td>
+              </tr>
+			  <tr>
+                <th>{lang('后台列表')}</th>
+                <td><input name="islist" type="radio" class="input-text" value="1"/>
+                  是
+                  <input name="islist" type="radio" class="input-text" value="0" checked="checked"/>
+                  否</td>
+              </tr>
+            </table>
+          </div>
+          <input name="sub" type="submit" value="{lang('提交')}" />
+        </div>
+      </form></td>
+  </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=7" />
+<title>{lang('字段管理')} - {core_config::get('admin_title')} - Power By Sutoo CMS</title>
+<link rel="stylesheet" href="{$base_dir}skin/admin/css.css" type="text/css" media="screen" />
+<script type="text/javascript" src="{$base_dir}js/common.js"></script>
+</head>
+<body>
+<table width="100%" border="0" cellspacing="10" cellpadding="0" id="info_box">
+  <tr>
+    <td>
+<div class="info_title">{lang('用户字段管理')} - {$umodel['modelname']}</div>
+<div class="info_content">
+  <table border="0" cellpadding="0" cellspacing="0">
+    <td><span class="tianjia"><a onclick="javascript:parent.windowsdig('{lang('添加模型字段')}','iframe:{url('ufield','add',1,array('modelid'=>$umodel['modelid']))}','900px','700px','iframe')" href="#body">{lang('添加用户字段')}</a></span></td>
+  </table>
+  <table width="100%" class="table_site" border="0" cellpadding="0" cellspacing="0">
+  <tr class="table_site_bt">
+    <td width="80">{lang('排序')}</td>
+    <td width="80">{lang('字段名')}</td>
+    <td width="80">{lang('别名')}</td>
+    <td width="80">{lang('类型')}</td>
+    <td width="80">{lang('必填')}</td>
+    <td width="80">{lang('是否唯一')}</td>
+    <td width="80">{lang('允许搜索')}</td>
+    <td width="80">{lang('注册显示')}</td>
+    <td width="80">{lang('后台列表')}</td>
+    <td>{lang('提示语')}</td>
+    <td width="80">{lang('操作管理')}</td>
+  </tr> 
+  {loop $row $item}
+  <tr>
+    <td><input name='listorders[{$item[fieldid]}]' type='text' size='3' value='{$item[listorder]}' class='input-text-c'></td>
+    <td>{$item[name]}</td>
+    <td>{$item[cname]}</td>
+    <td>{$item[formtype]}</td>
+    <td>{if $item['minlength']}√{/if}</td>
+    <td>{if $item['isunique']}√{/if}</td>
+    <td>{if $item['issearch']}√{/if}</td>
+    <td>{if $item['isadd']}√{/if}</td>
+    <td>{if $item['islist']}√{/if}</td>
+    <td>{$item['tips']}</td>
+    <td><a onclick="javascript:parent.windowsdig('{lang('修改')}','iframe:{url('ufield','edit',1,array('fieldid'=>$item['fieldid'],'modelid'=>$item['modelid']))}','900px','700px','iframe')" href="#body">{lang('修改')}</a> | <a onclick="return enterdel('{lang('确定要删除吗?')}')" href="{url('ufield','del',1,array('modelid'=>$item[modelid],'fieldid'=>$item['fieldid'],'fieldname'=>$item['name']))}">{lang('删除')}</a></td>
+  </tr>
+  {/loop}
+  <tr>
+    <td><input id="subForm" type="submit" value="{lang('排序')}" /></td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  </table>
+</div>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

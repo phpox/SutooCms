@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{lang('添加模板')}</title>
+<link rel="stylesheet" href="{$base_dir}skin/{$template_dir}/admin/css.css" type="text/css" media="screen" />
+<script type="text/javascript" src="{$base_dir}js/jquery.min.js"></script>
+</head>
+<body>
+<table width="100%" border="0" cellspacing="10" cellpadding="0" id="info_box">
+  <tr>
+    <td><form name="form1" action="" method="post">
+<ul id="tab">
+	<li id="tab1" class="hover">{lang('添加模板')}</li>
+</ul>
+<div class="info_content">
+  <div id="con_tab_1">
+	<table width="100%" class="table_form" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+      <td width="70">{lang('文件名')}</td>
+    <td><input name="name" type="text" id="intro" />
+      {lang('不包含扩展名')}</td>
+  </tr>
+  <tr>
+    <td>{lang('描述')}</td>
+    <td><input name="intro" type="text" id="intro" /></td>
+  </tr>
+  <tr>
+    <td>{lang('内容')}</td>
+    <td><input name="skin" type="hidden" id="skin" value="{$skin}" /><textarea name="data" cols="100" rows="30" id="intro" style="width:780px; height:460px; font-size:12px;"></textarea></td>
+  </tr>    
+  </table>
+   </div>
+   <input name="sub" type="submit" value="{lang('提交')}" />
+</div></form>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

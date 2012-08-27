@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{lang('修改模版')}</title>
+<link rel="stylesheet" href="{$base_dir}skin/{$template_dir}/admin/css.css" type="text/css" media="screen" />
+<script type="text/javascript" src="{$base_dir}js/jquery.min.js"></script>
+</head>
+<body>
+<table width="100%" border="0" cellspacing="10" cellpadding="0" id="info_box">
+  <tr>
+    <td><form name="form1" action="" method="post">
+<ul id="tab">
+	<li id="tab1" class="hover">{lang('修改')}{$row['name']}</li>
+</ul>
+<div class="info_content">
+  <div id="con_tab_1">
+	<table width="100%" class="table_form" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td><input name="data[name]" type="hidden" value="{$row['namenoext']}" /><input name="data[skin]" type="hidden" value="{$row['skin']}" /><textarea name="data[data]" cols="100" rows="30" id="intro" style="width:850px; height:560px; font-size:12px;">{htmlspecialchars($row['data'])}</textarea></td>
+  </tr>     
+  </table>
+   </div>
+   <input name="sub" type="submit" value="{lang('提交')}" />
+</div></form>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=7" />
+<title>{lang('用户模型管理')} - {core_config::get('admin_title')} - Power By Sutoo CMS</title>
+<link rel="stylesheet" href="{$base_dir}skin/admin/css.css" type="text/css" media="screen" />
+</head>
+<body>
+<table width="100%" border="0" cellspacing="10" cellpadding="0" id="info_box">
+  <tr>
+    <td>
+<div class="info_title">{lang('用户模型管理')}</div>
+<div class="info_content">
+<span class="tianjia"><a onclick="javascript:parent.windowsdig('{lang('添加用户模型')}','iframe:{url('umodel','add',1)}','900px','700px','iframe')" href="#body">{lang('添加用户模型')}</a></span>
+  <table width="100%" class="table_site" border="0" cellpadding="0" cellspacing="0">
+  <tr class="table_site_bt">
+    <td width="80">{lang('模型编号')}</td>
+    <td width="100">{lang('模型名称')}</td>
+    <td width="150">{lang('数据表')}</td>
+    <td>{lang('描述')}</td>
+    <td width="80">{lang('用户量')}</td>
+    <td width="50">{lang('状态')}</td>
+    <td width="280">{lang('操作管理')}</td>
+  </tr> 
+  {loop $row $item}
+  <tr>
+    <td>{$item['modelid']}</td>
+    <td>{$item['modelname']}</td>
+    <td>{$item['tbname']}</td>
+    <td>{$item['intro']}</td>
+    <td>{$item['count']}</td>
+    <td>{if $item['status']}√{else}×{/if}</td>
+    <td><a href="{url('ufield','list',1,array('modelid'=>$item['modelid']))}">{lang('字段管理')}</a> | <a href="ulist.htm">{lang('成员管理')}</a> | {lang('修改')} |{lang('删除')} | {lang('导出')}</td>
+  </tr>
+  {/loop}
+  </table>
+</div>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{lang('修改管理员')}</title>
+<link rel="stylesheet" href="{$base_dir}skin/{$template_dir}/admin/css.css" type="text/css" media="screen" />
+<script type="text/javascript" src="{$base_dir}js/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#form1").submit(function(){
+	  if($("#password").val() != '' && $("#password").val() != $("#password1").val()){
+	  	alert('{lang("两次输入的密码不一致")}');
+		$("#password").val('');
+		$("#password1").val('');
+		$("#password").focus();
+		return false;
+	  }
+  });
+});
+</script>
+</head>
+<body>
+<table width="100%" border="0" cellspacing="10" cellpadding="0" id="info_box">
+  <tr>
+    <td><form id="form1" name="form1" action="" method="post"><input name="uid" type="hidden" value="{$row['uid']}" />
+<ul id="tab">
+	<li id="tab1" class="hover">{lang('修改管理员')}</li>
+</ul>
+<div class="info_content">
+  <div id="con_tab_1">
+	<table width="100%" class="table_form" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <th>{lang('登录名')}</th>
+    <td><input type="text" class="input-text" name="username" id="username" size="30" value="{$row['username']}" disabled="disabled" /></td>
+  </tr>
+  <tr>
+    <th>{lang('登录密码')}</th>
+    <td><input type="password" class="input-text" name="password" id="password" size="30" /> {lang('不修改请留空')}</td>
+  </tr>
+  <tr>
+    <th>{lang('确认密码')}</th>
+    <td><input type="password" class="input-text" name="password1" id="password1" size="30" /></td>
+  </tr>
+  <tr>
+    <th>{lang('用户角色')}</th>
+    <td><select name="roleid" id="roleid">{$roles}</select></td>
+  </tr>
+  <tr>
+    <th>{lang('真实姓名')}</th>
+    <td><input type="text" class="input-text" name="realname" id="realname" size="30" value="{$row['realname']}" /></td>
+  </tr>   
+  <tr>
+    <th>{lang('描述')}</th>
+    <td><input type="text" class="input-text" name="intro" id="intro" size="30" value="{$row['intro']}" /></td>
+  </tr>
+</table>
+   </div>
+   <input name="sub" type="submit" value="{lang('提交')}" />
+</div></form>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

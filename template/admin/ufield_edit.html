@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=7" />
+<title>{lang('修改用户模型字段')} - {core_config::get('admin_title')} - Power By Sutoo CMS</title>
+<link rel="stylesheet" href="{$base_dir}skin/admin/css.css" type="text/css" media="screen" />
+<script type="text/javascript" src="{$base_dir}js/jquery.min.js"></script>
+<script type="text/javascript" src="{$base_dir}js/common.js"></script>
+<script type="text/javascript">
+jQuery(function($){
+  $("#formtype").change(function(){
+  	if($(this).val() == 'option'){
+		$('#args').css('display','');
+	}else{
+		$('#args').css('display','none');
+	}
+  });
+  $("#tbname").change(function(){
+  	$.ajax({
+	   type: "POST",
+	   url: "{url('field','getfields',1)}",
+	   data: "tbname="+$(this).val(),
+	   success: function(msg){
+		 $("#valname").append(msg);
+		 $("#viewname").append(msg);
+	   }
+	});
+  });
+});
+</script>
+</head>
+<body>
+<table width="100%" border="0" cellspacing="10" cellpadding="0" id="info_box">
+  <tr>
+    <td><form name="form1" action="" method="post"><input name="modelid" type="hidden" value="{$modelid}" /><input name="fieldid" type="hidden" value="{$row[fieldid]}" />
+        <ul id="tab">
+          <li id="tab1" class="hover">{lang('修改模型字段')}</li>
+        </ul>
+        <div class="info_content">
+          <div id="con_tab_1">
+            <table width="100%" class="table_form" border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <th width="300">{lang('字段名')}</th>
+                <td><input type="text" class="input-text" name="name" id="name" size="30" value="{$row['name']}" disabled /></td>
+              </tr>
+              <tr>
+                <th>{lang('别名')}</th>
+                <td><input type="text" class="input-text" name="cname" id="cname" size="30" value="{$row['cname']}" /></td>
+              </tr>
+              <tr>
+                <th>{lang('类型')}</th>
+                <td><select name="formtype" id="formtype"  disabled>
+				{setOption($row['formtype'],$typelist)}
+                  </select></td>
+              </tr>
+              <tr>
+                <th width="300"></th>
+                <td><table width="600" border="0" cellspacing="2" cellpadding="0" id="args" style="display:{if $row[formtype]!='option'}none{/if};border:#fefefe solid 1px;">
+  <tr>
+    <td>数据源</td>
+    <td><input name="ds" type="radio" value="m"  disabled {if $row[setting][ds] == 'm'}checked{/if} onclick="showhtml('dbview',0);showhtml('manual',1);" />
+      手动设置
+        <input type="radio" name="ds" value="a"  disabled {if $row[setting][ds] == 'a'}checked{/if} onclick="showhtml('manual',0);showhtml('dbview',1);" />
+        数据库</td>
+  </tr>
+  <tbody id="manual" style="display:{if $row[setting][ds] != 'm'}none{/if};">
+  <tr>
+    <td width="12%">选项列表</td>
+    <td width="88%"><textarea name="oplist" id="oplist"  disabled cols="45" rows="5">{$row[setting][oplist]}</textarea></td>
+  </tr>
+  </tbody>
+  <tbody id="dbview" style="display:{if $row[setting][ds] != 'a'}none{/if};">
+  <tr>
+    <td width="12%">选择数据表</td>
+    <td width="88%"><select name="tbname" id="tbname"  disabled>
+    {setOption($row[setting][tbname],$tables)}
+    </select> 值字段<select name="valname" id="valname"  disabled>
+	{setOption($row[setting][valname],$fieldlist)}
+    </select>  显示名字段<select name="viewname" id="viewname"  disabled>
+	{setOption($row[setting][viewname],$fieldlist)}
+    </select></td>
+  </tr>
+  </tbody>
+  <tr>
+    <td>选项类型</td>
+    <td> <input disabled name="optype" type="radio" value="radio" {if $row[setting][optype] == 'radio'}checked{/if} />
+      单选按钮   
+        <input disabled name="optype" type="radio" value="checkbox" {if $row[setting][optype] == 'checkbox'}checked{/if} />
+        复选框   
+        <input disabled name="optype" type="radio" value="select" {if $row[setting][optype] == 'select'}checked{/if} />
+        下拉框   
+        <input disabled name="optype" type="radio" value="mselect" {if $row[setting][optype] == 'mselect'}checked{/if} />
+        多选列表框</td>
+  </tr>
+  <tr>
+    <td>字段类型</td>
+    <td><select name="fieldtype" id="fieldtype"  disabled>
+      <option value="text" {if $row[setting][fieldtype] == 'text'}selected{/if}>字符串型</option>
+      <option value="int" {if $row[setting][fieldtype] == 'int'}selected{/if}>整数</option>
+    </select></td>
+  </tr>
+  <tr>
+    <td>默认值</td>
+    <td><input type="text" name="default" id="default" value="{$row[setting]['default']}" /></td>
+  </tr>
+</table></td>
+              </tr>
+              <tr>
+                <th>{lang('提示语')}</th>
+                <td><input type="text" class="input-text" name="tips" id="tips" size="30" value="{$row[tips]}" /></td>
+              </tr>
+              <tr>
+                <th>{lang('最小长度')}</th>
+                <td><input name="minlength" type="text" class="input-text" id="minlength" size="30" value="{$row[minlength]}" />
+                  0为不限制</td>
+              </tr>
+              <tr>
+                <th>{lang('最大长度')}</th>
+                <td><input name="maxlength" type="text" class="input-text" id="maxlength" size="30" value="{$row[maxlength]}" />
+                  0为不限制</td>
+              </tr>
+              <tr>
+                <th>{lang('验证规则')}</th>
+                <td><input type="text" class="input-text" name="pattern" id="pattern" size="30" value="{$row[pattern]}" /></td>
+              </tr>
+              <tr>
+                <th>{lang('错误提示')}</th>
+                <td><input type="text" class="input-text" name="errortips" id="errortips" size="30" value="{$row[errortips]}" /></td>
+              </tr>
+              <tr>
+                <th>{lang('是否唯一')}</th>
+                <td><input name="isunique" type="radio" class="input-text" value="1" {if $row[isunique] == '1'}checked{/if} />
+                  是
+                  <input name="isunique" type="radio" class="input-text" value="0" {if $row[isunique] == '0'}checked{/if} />
+                  否</td>
+              </tr>
+              <tr>
+                <th>{lang('允许搜索')}</th>
+                <td><input name="issearch" type="radio" class="input-text" value="1" {if $row[issearch] == '1'}checked{/if} />
+                  是
+                  <input name="issearch" type="radio" class="input-text" value="0" {if $row[issearch] == '0'}checked{/if} />
+                  否</td>
+              </tr>
+              <tr>
+                <th>{lang('注册显示')}</th>
+                <td><input name="isadd" type="radio" class="input-text" value="1" {if $row[isadd] == '1'}checked{/if} />
+                  是
+                  <input type="radio" class="input-text" name="isadd" value="0" {if $row[isadd] == '0'}checked{/if} />
+                  否</td>
+              </tr>
+			  <tr>
+                <th>{lang('后台列表')}</th>
+                <td><input name="islist" type="radio" class="input-text" value="1" {if $row[islist] == '1'}checked{/if} />
+                  是
+                  <input name="islist" type="radio" class="input-text" value="0" {if $row[islist] == '0'}checked{/if} />
+                  否</td>
+              </tr>
+            </table>
+          </div>
+          <input name="sub" type="submit" value="{lang('提交')}" />
+        </div>
+      </form></td>
+  </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,11 @@
+RewriteEngine on
+
+#RewriteBase  /
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} !\.(mp3|wmv|wma|rm|rmvb|js|ico|gif|jpeg|jpg|png|css|swf|php|html|shtml|xml|xsl|wsdl|xslt|rar|zip)$
+RewriteRule ([a-z]+)/([a-z]+) index.php?ctl=$1&act=$2
+
+
+

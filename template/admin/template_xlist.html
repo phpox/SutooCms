@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{lang('模板管理')}</title>
+<link rel="stylesheet" href="skin/default/admin/css.css" type="text/css" media="screen" />
+<script type="text/javascript" src="{$base_dir}js/common.js"></script>
+</head>
+<body>
+<table width="100%" border="0" cellspacing="10" cellpadding="0" id="info_box">
+  <tr>
+    <td><form action="{url('template','upxlistfile',1,array('skin'=>$skin,'intro'=>$intro))}" name="form1" method="post">
+<div class="info_title">{lang('模板管理')} - {$intro}</div>
+<div class="info_content">
+  <table border="0" cellpadding="0" cellspacing="0">
+    <td><span class="tianjia"><a onclick="javascript:parent.windowsdig('{lang('添加模板')}','iframe:{url('template','add',1,array('skin'=>$skin))}','900px','700px','iframe')" href="#body">{lang('添加模板')}</a></span></td>
+  </table>
+  <table width="100%" class="table_site" border="0" cellpadding="0" cellspacing="0">
+  <tr class="table_site_bt">
+    <td width="300">{lang('文件名')}</td>
+    <td>{lang('描述')}</td>
+    <td width="170">{lang('操作管理')}</td>
+  </tr> 
+  {loop $row $item}
+  <tr>
+    <td>{$item['name']}</td>
+    <td><input value="{$item['intro']}" name="name[{$item['name']}]" class="input-text-a" /></td>
+    <td><a onclick="javascript:parent.windowsdig('{lang('修改模版')}','iframe:{url('template','edit',1,array('skin'=>$skin,'name'=>$item['name']))}','900px','700px','iframe')" href="#body">{lang('修改')}</a> | <a onclick="return enterdel('{lang('确定要删除吗?')}')" href="{url('template','del',1,array('skin'=>$skin,'name'=>$item['name'],'intro'=>$intro))}">{lang('删除')}</a></td>
+  </tr>
+  {/loop}
+  <tr>
+    <td><input id="subForm" type="submit" value="{lang('提交')}" /></td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  </table>
+</div></form>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

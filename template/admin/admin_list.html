@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>管理员管理</title>
+<link rel="stylesheet" href="{$base_dir}skin/{$template_dir}/admin/css.css" type="text/css" media="screen" />
+<script type="text/javascript" src="{$base_dir}js/common.js"></script>
+</head>
+<body>
+<table width="100%" border="0" cellspacing="10" cellpadding="0" id="info_box">
+  <tr>
+    <td>
+<div class="info_title">管理员管理 - 系统管理员列表</div>
+<div class="info_content">
+  <span class="tianjia"><a onclick="javascript:parent.windowsdig('{lang('添加管理员')}','iframe:{url('admin','add','1',array('roleid'=>core_app::$get['roleid']))}','900px','480px','iframe')" href="#body">{lang('添加管理员')}</a></span>
+  <table width="100%" class="table_site" border="0" cellpadding="0" cellspacing="0">
+      <tr class="table_site_bt">
+        <td width="50">ID</td>
+        <td width="100">用户名</td>
+        <td width="100">真实姓名</td>
+        <td>描述</td>
+        <td width="150">最后登录时间</td>
+        <td width="150">最后登录IP</td>
+        <td width="100">操作管理</td>
+      </tr>
+      {loop $row $item} 
+      <tr>
+        <td>{$item['uid']}</td>
+        <td>{$item['username']}</td>
+        <td>{$item['realname']}</td>
+        <td>{$item['intro']}</td>
+        <td>{date('Y-m-d H:i',$item['lasttime'])}</td>
+        <td>{$item['lastip']}</td>
+        <td><a onclick="javascript:parent.windowsdig('{lang('修改管理员')}','iframe:{url('admin','edit','1',array('uid'=>$item['uid']))}','900px','480px','iframe')" href="#body">{lang('修改')}</a> | <a onclick="return enterdel('{lang('确定要删除吗?')}')" href="{url('admin','del','1',array('uid'=>$item['uid'],'roleid'=>$item['roleid']))}">{lang('删除')}</a></td>
+      </tr>
+      {/loop}
+  </table>
+</div>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

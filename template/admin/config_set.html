@@ -1,0 +1,286 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=7" />
+<title>{lang('系统设置')} - {core_config::get('admin_title')} - Power By Sutoo CMS</title>
+<link rel="stylesheet" href="{$base_dir}skin/admin/css.css" type="text/css" media="screen" />
+<script type="text/javascript" src="{$base_dir}js/script.js"></script>
+</head>
+<body>
+<form action="" method="post" name="frmconfigset" id="frmconfigset">
+<table width="100%" border="0" cellspacing="10" cellpadding="0" id="info_box">
+  <tr>
+    <td>
+<ul id="tab">
+	<li id="tab1" class="hover" onclick="setTab('tab',1,4)">{lang('基本配置')}</li>
+	<li id="tab2" onclick="setTab('tab',2,4)">{lang('安全配置')}</li>
+    <li id="tab3" onclick="setTab('tab',3,4)">{lang('数据库配置')}</li>
+    <li id="tab4" onclick="setTab('tab',4,4)">{lang('上传配置')}</li>
+</ul>
+<div class="info_content">
+  <div id="con_tab_1">
+	<table width="100%" class="table_form" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <th>{lang('系统名称')}</th>
+    <td><input type="text" class="input-text" name="setconfig[admin_title]" size="30" value="{getconfig('admin_title')}"/></td>
+  </tr> 
+  <tr>
+    <th>{lang('系统安装目录')}</th>
+    <td><input type="text" class="input-text" name="setconfig[base_dir]" size="30" value="{getconfig('base_dir')}"/></td>
+  </tr>    
+  <tr>
+    <th>{lang('管理员邮箱')}</th>
+    <td><input type="text" class="input-text" name="setconfig[admin_email]" size="30" value="{getconfig('admin_email')}"/></td>
+  </tr>
+  <tr>
+    <th>{lang('是否调试运行')}</th>
+    <td><input name="setconfig[isdebug]" value="1" type="radio" {if getconfig('isdebug')}checked{/if} /> 
+    {lang('是')}	
+    <input name="setconfig[isdebug]" value="0" type="radio" {if !getconfig('isdebug')}checked{/if} /> 
+    {lang('否')}</td>
+  </tr>
+  <tr>
+    <th>{lang('URL优化')}</th>
+    <td><input name="setconfig[url_type]" value="php" type="radio" {if 'php'==getconfig('url_type')}checked{/if} /> {lang('动态')}	
+    <input name="setconfig[url_type]" value="rewrite" type="radio" {if 'rewrite'==getconfig('url_type')}checked{/if} /> 
+    {lang('伪静态')}
+    <input name="setconfig[url_type]" value="html" type="radio" {if 'html'==getconfig('url_type')}checked{/if} /> 
+    {lang('纯静态')}</td>
+  </tr>
+  <tr>
+    <th>{lang('系统语言')}</th>
+    <td><select name="setconfig[lang_type]">
+      <option value="cn" {if getconfig('lang_type')=='cn'}selected{/if}>Chinese</option>
+      <option value="kr" {if getconfig('lang_type')=='kr'}selected{/if}>Korea</option>
+       <option value="en" {if getconfig('lang_type')=='en'}selected{/if}>English</option>
+    </select></td>
+  </tr>
+  <tr>
+    <th>{lang('默认分页大小')}</th>
+    <td><input type="text" class="input-text" name="setconfig[pagesize]" size="30" value="{getconfig('pagesize')}"/></td>
+  </tr>
+  <tr>
+    <th>{lang('启用页面Gzip压缩')}</th>
+    <td>
+    <input name="setconfig[gzip]" value="1" type="radio" {if getconfig('gzip')}checked{/if} /> {lang('是')}&nbsp;&nbsp;&nbsp;&nbsp;
+	<input name="setconfig[gzip]" value="0" type="radio" {if !getconfig('gzip')}checked{/if} /> {lang('否')}</td>
+  </tr>  
+</table>
+   </div>
+  <div id="con_tab_2" class="none">
+	<table width="100%" class="table_form" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <th>{lang('是否启用管理日志')}</th>
+    <td>
+	  <input name="setconfig[admin_log]" value="1" type="radio" {if getconfig('admin_log')}checked{/if} /> {lang('是')}&nbsp;&nbsp;&nbsp;&nbsp;
+	  <input name="setconfig[admin_log]" value="0" type="radio" {if !getconfig('admin_log')}checked{/if} /> {lang('否')}&nbsp;&nbsp;&nbsp;&nbsp;{lang('注意')}：{lang('本功能会加重服务器负担')}</td>
+  </tr>
+  <tr>
+    <th>{lang('后台最大登陆失败次数')}</th>
+    <td><input type="text" class="input-text" name="setconfig[maxloginfailedtimes]" size="10" value="{getconfig('maxloginfailedtimes')}"/></td>
+  </tr>
+  <tr>
+    <th>{lang('后台访问域名')}</th>
+    <td><input type="text" class="input-text" name="setconfig[admin_url]" size="30" value="{getconfig('admin_url')}" /> {lang('例如')}：admin.sutoo.net</td>
+  </tr> 
+</table>
+   </div>
+   <div id="con_tab_3" class="none">
+<table width="100%" class="table_form" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <th width="240">{lang('MySQL服务器')}</th>
+    <td><input type="text" class="input-text" name="setconfig[database][host]" size="30" value="{getconfig('database','host')}"/></td>
+  </tr>
+  <tbody id="smtpcfg" style="">
+  <tr>
+    <th>{lang('用户名')}</th>
+    <td><input type="text" class="input-text" name="setconfig[database][user]" size="30" value="{getconfig('database','user')}" /></td>
+  </tr>  
+  <tr>
+    <th>{lang('密码')}</th>
+    <td><input type="password" class="input-text" name="setconfig[database][password]" size="30" value="{getconfig('database','password')}" /></td>
+  </tr> 
+  <tr>
+    <th>{lang('数据库')}</th>
+    <td><input type="text" class="input-text" name="setconfig[database][database]" size="30" value="{getconfig('database','database')}" /></td>
+  </tr>   
+  <tr>
+    <th>{lang('表前缀')}</th>
+    <td><input type="text" class="input-text" name="setconfig[database][prefix]" size="30" value="{getconfig('database','prefix')}" /></td>
+  </tr> 
+
+	  <tr>
+	    <th>{lang('编码')}</th>
+	    <td><input type="text" class="input-text" name="setconfig[database][encoding]" size="30" value="{getconfig('database','encoding')}" /></td>
+	  </tr>            
+  </table>
+   </div>
+   <div id="con_tab_4" class="none">
+<table width="100%" class="table_form" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <th width="240">{lang('商品图片目录')}</th>
+    <td><input type="text" class="input-text" name="setconfig[upload_shop][path]" size="30" value="{getconfig('upload_shop','path')}" /></td>
+  </tr>
+  <tbody id="smtpcfg" style="">
+  <tr>
+    <th>{lang('上传大小')}</th>
+    <td><input type="text" class="input-text" name="setconfig[upload_shop][length]" size="30" value="{getconfig('upload_shop','length')}" /></td>
+  </tr>  
+  <tr>
+    <th>{lang('允许的类型')}</th>
+    <td><input type="text" class="input-text" name="setconfig[upload_shop][type]" size="30" value="{getconfig('upload_shop','type')}" /></td>
+  </tr> 
+  <tr>
+    <th>{lang('是否重命名')}</th>
+    <td><input name="setconfig[upload_shop][isrename]" value="1" type="radio" {if getconfig('upload_shop','isrename')}checked{/if} /> 
+    {lang('是')}	
+    <input name="setconfig[upload_shop][isrename]" value="0" type="radio" {if !getconfig('upload_shop','isrename')}checked{/if} /> 
+    {lang('否')}</td>
+  </tr>   
+  <tr>
+    <th>{lang('生成缩略图')}</th>
+    <td><input name="setconfig[upload_shop][thumb]" value="1" type="radio" {if getconfig('upload_shop','thumb')}checked{/if} /> 
+    {lang('是')}	
+    <input name="setconfig[upload_shop][thumb]" value="0" type="radio" {if !getconfig('upload_shop','thumb')}checked{/if} /> 
+    {lang('否')}</td>
+  </tr> 
+
+	  <tr>
+	    <th>{lang('缩略图最大宽度')}</th>
+	    <td><input type="text" class="input-text" name="setconfig[upload_shop][width]" size="30" value="{getconfig('upload_shop','width')}" /></td>
+	  </tr> 
+	  <tr>
+	    <th>{lang('缩略图最大高度')}</th>
+	    <td><input type="text" class="input-text" name="setconfig[upload_shop][height]" size="30" value="{getconfig('upload_shop','height')}" /></td>
+	  </tr>
+    <th>{lang('缩略图保存路径')}</th>
+    <td><input type="text" class="input-text" name="setconfig[upload_shop][thumbpath]" size="30" value="{getconfig('upload_shop','thumbpath')}" /></td>
+  </tr>
+ </tbody>
+  <tr>
+    <th>{lang('是否固定大小缩放')}</th>
+    <td><input name="setconfig[upload_shop][ratio]" value="1" type="radio" {if getconfig('upload_shop','ratio')}checked{/if} /> 
+    {lang('是')}	
+    <input name="setconfig[upload_shop][ratio]" value="0" type="radio" {if !getconfig('upload_shop','ratio')}checked{/if} /> 
+    {lang('否')}</td>
+  </tr>
+    <th>{lang('水印保存路径')}</th>
+    <td><input type="text" class="input-text" name="setconfig[upload_shop][wmpath]" size="30" value="{getconfig('upload_shop','wmpath')}" /></td>
+  </tr>        
+  </table>
+  <br />
+  <table width="100%" class="table_form" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <th width="240">{lang('文章图片目录')}</th>
+    <td><input type="text" class="input-text" name="setconfig[upload_news][path]" size="30" value="{getconfig('upload_news','path')}" /></td>
+  </tr>
+  <tbody id="smtpcfg" style="">
+  <tr>
+    <th>{lang('上传大小')}</th>
+    <td><input type="text" class="input-text" name="setconfig[upload_news][length]" size="30" value="{getconfig('upload_news','length')}" /></td>
+  </tr>  
+  <tr>
+    <th>{lang('允许的类型')}</th>
+    <td><input type="text" class="input-text" name="setconfig[upload_news][type]" size="30" value="{getconfig('upload_news','type')}" /></td>
+  </tr> 
+  <tr>
+    <th>{lang('是否重命名')}</th>
+    <td><input name="setconfig[upload_news][isrename]" value="1" type="radio" {if getconfig('upload_news','isrename')}checked{/if} /> 
+    {lang('是')}	
+    <input name="setconfig[upload_news][isrename]" value="0" type="radio" {if !getconfig('upload_news','isrename')}checked{/if} /> 
+    {lang('否')}</td>
+  </tr>   
+  <tr>
+    <th>{lang('生成缩略图')}</th>
+    <td><input name="setconfig[upload_news][thumb]" value="1" type="radio" {if getconfig('upload_shop','thumb')}checked{/if} /> 
+    {lang('是')}	
+    <input name="setconfig[upload_news][thumb]" value="0" type="radio" {if !getconfig('upload_shop','thumb')}checked{/if} /> 
+    {lang('否')}</td>
+  </tr> 
+
+	  <tr>
+	    <th>{lang('缩略图最大宽度')}</th>
+	    <td><input type="text" class="input-text" name="setconfig[upload_news][width]" size="30" value="{getconfig('upload_news','width')}" /></td>
+	  </tr> 
+	  <tr>
+	    <th>{lang('缩略图最大高度')}</th>
+	    <td><input type="text" class="input-text" name="setconfig[upload_news][height]" size="30" value="{getconfig('upload_news','height')}" /></td>
+	  </tr>
+    <th>{lang('缩略图保存路径')}</th>
+    <td><input type="text" class="input-text" name="setconfig[upload_news][thumbpath]" size="30" value="{getconfig('upload_news','thumbpath')}" /></td>
+  </tr>
+ </tbody>
+  <tr>
+    <th>{lang('是否固定大小缩放')}</th>
+    <td><input name="setconfig[upload_news][ratio]" value="1" type="radio" {if getconfig('upload_shop','ratio')}checked{/if} /> 
+    {lang('是')}	
+    <input name="setconfig[upload_news][ratio]" value="0" type="radio" {if !getconfig('upload_shop','ratio')}checked{/if} /> 
+    {lang('否')}</td>
+  </tr>
+    <th>{lang('水印保存路径')}</th>
+    <td><input type="text" class="input-text" name="setconfig[upload_news][wmpath]" size="30" value="{getconfig('upload_news','wmpath')}" /></td>
+  </tr>        
+  </table>
+  <br />
+  <table width="100%" class="table_form" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <th width="240">{lang('企业信息图片目录')}</th>
+    <td><input type="text" class="input-text" name="setconfig[upload_biz][path]" size="30" value="{getconfig('upload_biz','path')}" /></td>
+  </tr>
+  <tbody id="smtpcfg" style="">
+  <tr>
+    <th>{lang('上传大小')}</th>
+    <td><input type="text" class="input-text" name="setconfig[upload_biz][length]" size="30" value="{getconfig('upload_biz','length')}" /></td>
+  </tr>  
+  <tr>
+    <th>{lang('允许的类型')}</th>
+    <td><input type="text" class="input-text" name="setconfig[upload_biz][type]" size="30" value="{getconfig('upload_biz','type')}" /></td>
+  </tr> 
+  <tr>
+    <th>{lang('是否重命名')}</th>
+    <td><input name="setconfig[upload_biz][isrename]" value="1" type="radio" {if getconfig('upload_biz','isrename')}checked{/if} /> 
+    {lang('是')}	
+    <input name="setconfig[upload_biz][isrename]" value="0" type="radio" {if !getconfig('upload_biz','isrename')}checked{/if} /> 
+    {lang('否')}</td>
+  </tr>   
+  <tr>
+    <th>{lang('生成缩略图')}</th>
+    <td><input name="setconfig[upload_biz][thumb]" value="1" type="radio" {if getconfig('upload_biz','thumb')}checked{/if} /> 
+    {lang('是')}	
+    <input name="setconfig[upload_biz][thumb]" value="0" type="radio" {if !getconfig('upload_biz','thumb')}checked{/if} /> 
+    {lang('否')}</td>
+  </tr> 
+
+	  <tr>
+	    <th>{lang('缩略图最大宽度')}</th>
+	    <td><input type="text" class="input-text" name="setconfig[upload_biz][width]" size="30" value="{getconfig('upload_biz','width')}" /></td>
+	  </tr> 
+	  <tr>
+	    <th>{lang('缩略图最大高度')}</th>
+	    <td><input type="text" class="input-text" name="setconfig[upload_biz][height]" size="30" value="{getconfig('upload_biz','height')}" /></td>
+	  </tr>
+    <th>{lang('缩略图保存路径')}</th>
+    <td><input type="text" class="input-text" name="setconfig[upload_biz][thumbpath]" size="30" value="{getconfig('upload_biz','thumbpath')}" /></td>
+  </tr>
+ </tbody>
+  <tr>
+    <th>{lang('是否固定大小缩放')}</th>
+    <td><input name="setconfig[upload_biz][ratio]" value="1" type="radio" {if getconfig('upload_biz','ratio')}checked{/if} /> 
+    {lang('是')}	
+    <input name="setconfig[upload_biz][ratio]" value="0" type="radio" {if !getconfig('upload_biz','ratio')}checked{/if} /> 
+    {lang('否')}</td>
+  </tr>
+    <th>{lang('水印保存路径')}</th>
+    <td><input type="text" class="input-text" name="setconfig[upload_biz][wmpath]" size="30" value="{getconfig('upload_biz','wmpath')}" /></td>
+  </tr>        
+  </table>
+   </div>
+   <input name="sub" type="submit" value="{lang('提交')}" />
+</div>
+    </td>
+  </tr>
+</table>
+</form>
+</body>
+</html>

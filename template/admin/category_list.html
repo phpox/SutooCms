@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{lang('栏目管理')}</title>
+<link rel="stylesheet" href="skin/default/admin/css.css" type="text/css" media="screen" />
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+</head>
+<body>
+<form action="" name="form1" method="post">
+<table width="100%" border="0" cellspacing="10" cellpadding="0" id="info_box">
+  <tr>
+    <td>
+<div class="info_title">{lang('栏目管理')}</div>
+<div class="info_content">
+  <table width="100%" border="0" cellpadding="0" cellspacing="0">
+    <td><span class="tianjia"><a onclick="javascript:parent.windowsdig('{lang('添加栏目')}','iframe:{url('category','add',1,array('siteid'=>$siteid))}','900px','600px','iframe')" href="#body">{lang('添加栏目')}</a></span><span class="tianjia"><a onclick="javascript:parent.windowsdig('{lang('更新缓存')}','iframe:{url('category','upcache',1,array('siteid'=>$siteid))}','900px','500px','iframe')" href="#body">{lang('更新缓存')}</a></span></td>
+    <tr>
+      <td height="10"></td>
+    </table>
+  <table width="100%" class="table_site" border="0" cellpadding="0" cellspacing="0">
+  <tr class="table_site_bt">
+    <td width="50">{lang('排序')}</td>
+    <td width="60">Catid</td>
+    <td>{lang('栏目名称')}</td>
+    <td width="80">{lang('所属模型')}</td>
+    <td width="60">{lang('数据量')}</td>
+    <td width="210">{lang('操作管理')}</td>
+  </tr> 
+  {loop $row $cat}
+<tr>
+					<td align='center'><input name='listorders[{$cat['catid']}]' type='text' size='3' value='{$cat['listorder']}' class='input-text-c'></td>
+					<td align='center'>{$cat['catid']}</td>
+					<td class="title_left">{$cat['catename']} [{$cat['catdir']}]</td>
+					<td><font color="blue">{$cat['modelname']}</font></td>
+					<td align='center'>&nbsp;{$cat['rownum']}</td>
+					<td colspan="2" align='center'><a onclick="javascript:parent.windowsdig('{lang('添加子栏目')}','iframe:{url('category','add',1,array('siteid'=>$siteid,catid=>$cat['catid']))}','900px','600px','iframe')" href="#body">{lang('添加子栏目')}</a> | <a onclick="javascript:parent.windowsdig('{lang('修改')}','iframe:{url('category','edit',1,array('siteid'=>$siteid,catid=>$cat['catid']))}','900px','600px','iframe')" href="#body">{lang('修改')}</a> | <a onclick="return enterdel('{lang('确定要删除吗')}')" href="{url('category','del',1,array('siteid'=>$siteid,'catid'=>$cat['catid']))}">{lang('删除')}</a></td>
+				</tr>
+                {php table_category::getcategorydata($cat['siteid'],$cat['catid'],$data1,$l=1)}
+				{if $data1}
+					{loop $data1 $d1}
+                    
+                    <tr>
+					<td align='center'><input name='listorders[{$d1['catid']}]' type='text' size='3' value='{$d1['listorder']}' class='input-text-c'></td>
+					<td align='center'>{$d1['catid']}</td>
+					<td class="title_left">{$d1['catename']} [{$d1['catdir']}]</td>
+					<td><font color="blue">{$d1['modelname']}</font></td>
+					<td align='center'>&nbsp;{$d1['rownum']}</td>
+					<td colspan="2" align='center'><a onclick="javascript:parent.windowsdig('{lang('添加子栏目')}','iframe:{url('category','add',1,array('siteid'=>$siteid,catid=>$d1['catid']))}','900px','600px','iframe')" href="#body">{lang('添加子栏目')}</a> | <a onclick="javascript:parent.windowsdig('{lang('修改')}','iframe:{url('category','edit',1,array('siteid'=>$siteid,catid=>$d1['catid']))}','900px','600px','iframe')" href="#body">{lang('修改')}</a> | <a onclick="return enterdel('{lang('确定要删除吗')}')" href="{url('category','del',1,array('siteid'=>$siteid,'catid'=>$d1['catid']))}">{lang('删除')}</a></td>
+				</tr>
+                
+                    {/loop}
+                {/if}
+                {php unset($d1);unset($data1);}
+               {/loop}
+  <tr>
+    <td><input type="hidden" name="batch" value="">
+    <input type="button" value="{lang('排序')}" name="sort" onclick="this.form.action='{url('category','batch',1)}'; this.form.batch.value='sort'; this.form.submit();" /></td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td colspan="2">&nbsp;</td>
+    </tr>
+  </table>
+</div>
+    </td>
+  </tr>
+</table>
+</form>
+</body>
+</html>
