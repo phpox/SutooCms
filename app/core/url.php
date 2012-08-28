@@ -57,7 +57,7 @@ final class core_url {
 
     //生成URL
     public static function cturl($ctl='', $act='', $adminact=0, $parm=null) {
-        $url = 'index.php';
+        $url = core_config::get('base_dir').'index.php';
         if ($ctl == '') {
             $ctl = 'index';
         }
@@ -67,7 +67,7 @@ final class core_url {
         if(!$adminact && (core_config::get('url_type') == 'rewrite' || core_config::get('url_type') == 'html'))
         	$is_urlrewrite = 1;
         if($is_urlrewrite){
-        	$url = "$ctl/$act";
+        	$url = core_config::get('base_dir').$ctl.'/'.$act;
         }else{
         	$url .= "?ctl=" . $ctl . "&act=" . $act;
         }

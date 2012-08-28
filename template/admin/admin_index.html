@@ -25,19 +25,18 @@
 			<div id="left">
 <ul id="main-nav">
         {loop $sites $site}
-        {php $site['sttype']=unserialize($site['sttype'])}
         <li><a class="nav-top-item">{$site['sitename']}</a>
           <ul>
 		    <li><a href="{url('category','list',1,array('siteid'=>$site['siteid']))}">{lang('站点栏目管理')}</a></li>
-            {if $site['sttype']['news']}<li><a href="{url('news','list',1,array('siteid'=>$site['siteid']))}">{lang('站点内容管理')}</a></li>{/if}
-            {if $site['sttype']['pic']}<li><a href="{url('pic','list',1,array('siteid'=>$site['siteid']))}">{lang('站点图片管理')}</a></li>{/if}
-            {if $site['sttype']['shop']}
+            {if in_array('news',$site['model'])}<li><a href="{url('news','list',1,array('siteid'=>$site['siteid']))}">{lang('站点内容管理')}</a></li>{/if}
+            {if in_array('pic',$site['model'])}<li><a href="{url('pic','list',1,array('siteid'=>$site['siteid']))}">{lang('站点图片管理')}</a></li>{/if}
+            {if in_array('shops',$site['model'])}
             <li><a href="{url('brand','list',1,array('siteid'=>$site['siteid']))}">{lang('商城品牌管理')}</a></li>
             <li><a href="{url('shop','list',1,array('siteid'=>$site['siteid']))}">{lang('商城商品管理')}</a></li>
-            <li><a href="{url('order','list',1,array('siteid'=>$site['siteid']))}">{lang('商城交易管理')}</a></li>
+            <!--<li><a href="{url('order','list',1,array('siteid'=>$site['siteid']))}">{lang('商城交易管理')}</a></li>
             <li><a href="{url('pay','list',1,array('siteid'=>$site['siteid']))}">{lang('商城支付管理')}</a></li>
-            <li><a href="{url('shopmember','list',1,array('siteid'=>$site['siteid']))}">{lang('商城会员管理')}</a></li>
-            <li><a href="{url('news','infolist',1,array('siteid'=>$site['siteid']))}">{lang('品牌知识管理')}</a></li>{/if}
+            <li><a href="{url('shopmember','list',1,array('siteid'=>$site['siteid']))}">{lang('商城会员管理')}</a></li>-->{/if}
+            {if in_array('info',$site['model'])}<li><a href="{url('info','list',1,array('siteid'=>$site['siteid']))}">{lang('供求信息管理')}</a></li>{/if}
 		    <li><a href="{url('types','list',1,array('siteid'=>$site['siteid']))}">{lang('站点类别管理')}</a></li>
 		    <li><a href="{url('model','list',1,array('siteid'=>$site['siteid']))}">{lang('站点模型管理')}</a></li>
 		    <li><a href="javascript:parent.windowsdig('{lang('站点信息配置')}','iframe:index.php?ctl=site&act=edit&adminact=1&siteid={$site['siteid']}','900px','480px','iframe')">{lang('站点信息配置')}</a></li>
@@ -52,7 +51,7 @@
 		    <li><a href="{url('template','list',1)}">{lang('系统模板管理')}</a></li>
 		    <li><a href="special.htm">{lang('系统专题管理')}</a></li>
 		    <li><a href="log.htm">{lang('系统日志管理')}</a></li>
-            <li><a href="{url('role','list',1)}">{lang('系统管理员管理')}</a></li>
+            <li><a href="{url('role','list',1)}">{lang('系统角色管理')}</a></li>
 		  </ul>
         </li>
         <li><a class="nav-top-item">{lang('用户设置')}</a>

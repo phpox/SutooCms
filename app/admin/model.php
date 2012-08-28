@@ -73,7 +73,21 @@ class admin_model extends core_control {
             $this->_table->query($sql);
         }
         alerterror('删除失败');
-    }  
+    }
+    
+    /**
+     * 更新缓存
+     */
+    public function upcache_act(){
+    	$row = $this->_table->getrows(null,null,'modelid ASC','modelid,modelname,tbname');
+    	$arr = core_tool::array_group_by2($row,'modelid');
+    	if(core_tool::wrcache('model', $arr)){
+    		echo lang('更新缓存成功');
+    	}else{
+    		echo lang('更新缓存失败');
+    	}
+    	exit();
+    }
 
     public function end() {
         parent::end();

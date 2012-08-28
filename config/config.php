@@ -14,7 +14,7 @@
 
 if (!defined('SUTOOCMS')) exit('Can\'t Access !'); return array (
   'admin_title'=>'HDPLUS ADMIN',
-  'base_dir'=>'/pet/',
+  'base_dir'=>'/SutooCms/',
   'admin_email'=>'admin@sutoo.com',
   'isdebug'=>'1',
   'url_type'=>'rewrite',
@@ -28,7 +28,7 @@ if (!defined('SUTOOCMS')) exit('Can\'t Access !'); return array (
     'host'=>'localhost',
     'user'=>'root',
     'password'=>'root',
-    'database'=>'pet',
+    'database'=>'sutoocms',
     'prefix'=>'stcms_',
     'encoding'=>'utf8',
   ),

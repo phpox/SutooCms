@@ -20,13 +20,26 @@ class admin_admin extends core_control{
 	
     public function init(){
         parent::init();
-        parent::init();
         $this->_table = table_admins::getInstance();
         if (!$this->_table->getFields())
         	sexit('数据没找到!');
     }
 
     public function index_act(){
+    	
+    	$models = core_tool::rdcache('model');
+    	
+    	$obj_site = table_sites::getInstance();
+    	$sites = $obj_site->getrows();
+    	if(is_array($sites) && !empty($sites)){
+    		$i = 0;
+    		foreach($sites as $site){
+    			$sttype = array_flip(explode(',',$site['sttype']));
+    			$sites[$i]['model'] = core_tool::array_to_hashmap(array_intersect_key($models,$sttype),'modelid','tbname');
+    			$i++;
+    		}
+    	}
+    	$this->tpl->sites = $sites;
         $this->tpl->admin = $_SESSION['admin'];
     }
     

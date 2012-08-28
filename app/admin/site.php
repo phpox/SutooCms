@@ -38,7 +38,7 @@ class admin_site extends core_control {
             if (!core_app::$post['sitedomain']) {
                 core_url::alerterror('请输入站点域名');
             }
-            core_app::$post['sttype'] = serialize(core_app::$post['sttype']);
+            core_app::$post['sttype'] = implode(',',core_app::$post['sttype']);
             if ($this->_table->rec_update(core_app::$post, array('siteid' => core_app::$post['siteid']))) {
                 core_url::closeiframe(true);
             } else {
@@ -46,8 +46,13 @@ class admin_site extends core_control {
             }
         }
         $this->tpl->row = $this->_table->getrow(array('siteid' => core_app::$get['siteid']), "siteid DESC", $this->_table->getcols('modify'));
-        $this->tpl->row['sttype'] = unserialize($this->tpl->row['sttype']);
+        $this->tpl->row['sttype'] = explode(',',$this->tpl->row['sttype']);
         $this->tpl->tmp = $this->getTemplateDir($this->tpl->row['template_dir']);
+        
+        $models = core_tool::rdcache('model');
+        $models = core_tool::array_to_hashmap($models, 'modelid','modelname');
+        $models = setCheckBox($this->tpl->row['sttype'],$models,array('name'=>'sttype[]'));
+        $this->tpl->models = $models;
     }
     
     /**
@@ -76,7 +81,7 @@ class admin_site extends core_control {
             if (!core_app::$post['sitedomain']) {
                 core_url::alerterror('请输入站点域名');
             }
-            core_app::$post['sttype'] = serialize(core_app::$post['sttype']);
+            core_app::$post['sttype'] = implode(',',core_app::$post['sttype']);
             if ($this->_table->rec_insert(core_app::$post)) {
                 core_url::closeiframe(true);
             } else {
@@ -84,6 +89,10 @@ class admin_site extends core_control {
             }
         }
         $this->tpl->tmp = $this->getTemplateDir();
+        $models = core_tool::rdcache('model');
+        $models = core_tool::array_to_hashmap($models, 'modelid','modelname');
+        $models = setCheckBox($this->tpl->row['sttype'],$models,array('name'=>'sttype[]'));
+        $this->tpl->models = $models;
     }
 
     public function del_act() {

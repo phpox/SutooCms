@@ -9,7 +9,7 @@
  * ============================================================================
  *
  * @author:  phpox
- * @version: v1.0 u20120711
+ * @version: v1.0 u20120828
  */
 
 if (!defined('SUTOOCMS'))
@@ -24,15 +24,15 @@ class admin_category extends core_control {
         $this->_table = table_category::getInstance();
         if (!$this->_table->getFields())
             sexit('数据没找到!');
-
-        $this->tpl->siteid = core_app::$get['siteid'];
     }
 
     public function list_act() {
         $where['siteid'] = core_app::$get['siteid'];
         $where['parentid'] = '0';
         $this->tpl->row = $this->_table->getrows($where, $limit, "listorder=0,listorder asc,catid asc", $this->_table->getcols('manage'));
-        $this->view->record_count = $this->_table->record_count;
+        
+        $models = core_tool::rdcache('model');
+        $this->tpl->models = $models;
     }
 
     public function add_act() {
@@ -71,9 +71,12 @@ class admin_category extends core_control {
                 core_url::closeiframe(true);
             }
         }
-        $obj_model = table_model::getInstance();
-        $modellist = $obj_model->getmodellist(core_app::$get['siteid']);
-        $this->tpl->modellist = core_tool::array_to_hashmap($modellist, 'modelid', 'modelname');
+        
+        $models = core_tool::rdcache('model');
+        $sitemodel = array_flip(explode(',',$this->_site['sttype']));
+        $models = array_intersect_key($models,$sitemodel);
+        $models = core_tool::array_to_hashmap($models, 'modelid','modelname');
+        $this->tpl->models = $models;
 
         $catid = intval(core_app::$get['catid']);
 
@@ -88,9 +91,6 @@ class admin_category extends core_control {
 
     public function edit_act() {
         if (core_app::$post['sub']) {
-            if (!core_app::$post['modelid']) {
-                core_url::alerterror('请选择模型');
-            }
             if (!core_app::$post['catename']) {
                 core_url::alerterror('请输入栏目名称');
             }
@@ -106,9 +106,12 @@ class admin_category extends core_control {
                 core_url::alerterror('修改分类失败');
             }
         }
-        $obj_model = table_model::getInstance();
-        $modellist = $obj_model->getmodellist(core_app::$get['siteid']);
-        $this->tpl->modellist = core_tool::array_to_hashmap($modellist, 'modelid', 'modelname');
+        
+        $models = core_tool::rdcache('model');
+        $sitemodel = array_flip(explode(',',$this->_site['sttype']));
+        $models = array_intersect_key($models,$sitemodel);
+        $models = core_tool::array_to_hashmap($models, 'modelid','modelname');
+        $this->tpl->models = $models;
 
         $catid = intval(core_app::$get['catid']);
 

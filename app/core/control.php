@@ -21,6 +21,7 @@ abstract class core_control{
     public $pagesize;
     public $_table = null;
     public $_style = '';
+    public $_site;
 
     function __construct() {
     	//当前访问的站点
@@ -30,7 +31,7 @@ abstract class core_control{
     	if(is_array($sites) && !empty($sites)){
     		foreach ($sites as $arr){
     			if(preg_match('/'.core_app::$domain.'/',$arr['sitedomain'])){
-    				$curr_site = $arr;
+    				$this->_site = $curr_site = $arr;
     				break;
     			}
     		}
@@ -66,7 +67,8 @@ abstract class core_control{
         core_app::$tpl->site_title = $curr_site['sitename'];
         core_app::$tpl->site_domain = $curr_site['sitedomain'];
         core_app::$tpl->template_dir = $curr_site['template_dir'];
-        core_app::$tpl->sites = $sites;
+        core_app::$tpl->curr_site = $curr_site;
+        core_app::$tpl->style_dir = core_config::get('base_dir').'skin/'.$this->_style.'/';
         
         $obj_keywords = table_keywords::getInstance();
         $where = "uptime >= uptime-86400";

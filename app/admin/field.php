@@ -23,14 +23,11 @@ class admin_field extends core_control {
         parent::init();
         $this->_table = table_fields::getInstance();
         
-        $this->model = new table_model();
-        $row = $this->model->getrow(array('modelid'=>core_app::$get['modelid']));
-        $this->tpl->model = $row;
+        $models = core_tool::rdcache('model');
+        $this->tpl->model = $models[core_app::$get['modelid']];
         
-        $this->modeltable = new $this->table;
-        $this->modeltable->name = $this->modeltable->prefix.$row['tbname'];
-        
-        $this->tpl->siteid = intval(core_app::$get['siteid']);
+        $this->modeltable = new table_model();
+        $this->modeltable->name = $this->modeltable->prefix.$this->tpl->model['tbname'];
     }
     
     public function getfields_act(){

@@ -1,0 +1,27 @@
+<?php return array (
+    '1'=>array(
+        'modelid'=>'1',
+        'modelname'=>'文章模型',
+        'tbname'=>'news',
+    ),
+    '2'=>array(
+        'modelid'=>'2',
+        'modelname'=>'图片模型',
+        'tbname'=>'pics',
+    ),
+    '3'=>array(
+        'modelid'=>'3',
+        'modelname'=>'商城模型',
+        'tbname'=>'shops',
+    ),
+    '4'=>array(
+        'modelid'=>'4',
+        'modelname'=>'供求模型',
+        'tbname'=>'info',
+    ),
+    '5'=>array(
+        'modelid'=>'5',
+        'modelname'=>'音乐模型',
+        'tbname'=>'music',
+    ),
+);?>

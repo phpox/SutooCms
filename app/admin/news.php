@@ -9,7 +9,7 @@
  * ============================================================================
  *
  * @author:  phpox
- * @version: v1.0 u20120619
+ * @version: v1.0 u20120829
  */
 
 if (!defined('SUTOOCMS'))
@@ -27,16 +27,16 @@ class admin_news extends core_control {
 
     public function list_act() {
     	$catid = intval(core_app::$get['catid']);
-        $where = "modelid!=2 and modelid!=3 and parentid=0 and siteid=".intval(core_app::$get['siteid']);
+        $where = "modelid=1 and parentid=0 and siteid=".intval(core_app::$get['siteid']);
         $category = table_category::getInstance();
         $category->init(core_app::$get['siteid']);
-        $this->tpl->cates = $category->getrows($where, $limit, "listorder=0,listorder asc,catid asc", $category->getcols('manage'));
+        $this->tpl->cates = $category->getrows($where, 0, "listorder=0,listorder asc,catid asc", $category->getcols('manage'));
         $i = 0;
         foreach ($this->tpl->cates as $arr) {
             if ($category->hasson($arr['catid'])) {
                 $this->tpl->cates[$i]['classname'] = 'folder';
             } else {
-                $this->tpl->cates[$i]['add'] = '<a href="#" target="right" onclick="javascript:openwinx(\'#\',\'\')"><img src="http://yanji.sutoo.com/statics/images/add_content.gif" alt="添加"></a>';
+                $this->tpl->cates[$i]['add'] = '<a href="#" target="right" onclick="javascript:openwinx(\'#\',\'\')"><img src="'.core_config::get('base-dir').'skin/admin/add_content.gif" alt="添加"></a>';
             }
             $i++;
         }
@@ -45,9 +45,9 @@ class admin_news extends core_control {
             $this->tpl->cate = $category->category[core_app::$get['catid']];
         if (core_app::$get['modelid']) {
             $catid = intval(core_app::$get['catid']);
-            $model = new table_model();
-            $models = $model->getrow(core_app::$get['modelid']);
-            $field = new table_fields();
+            $models = core_tool::rdcache('model');
+        	$tbname = $models[core_app::$get['modelid']]['tbname'];
+            $field = table_fields::getInstance();
             $fields = $field->getrows(array('modelid' => core_app::$get['modelid'], 'islist' => 1));
             $this->tpl->fields = $fields;
             $fields = core_tool::array_to_hashmap($fields, 'fieldid', 'name');
@@ -56,7 +56,7 @@ class admin_news extends core_control {
             if ($str) {
                 $collist .= ',' . $str;
             }
-            $this->_table->name = $this->_table->prefix . $models['tbname'];
+            $this->_table->name = $this->_table->prefix . $tbname;
             $this->tpl->row = $this->_table->getrows("catid = '$catid'", '', 'id DESC', $collist);
         }
     }

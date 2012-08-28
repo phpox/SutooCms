@@ -9,7 +9,7 @@
  * ============================================================================
  *
  * @author  phpox
- * @version v1.0 u20120724
+ * @version v1.0 u20120828
  */
 
 if (!defined('SUTOOCMS')) exit('Can\'t Access !');
@@ -18,38 +18,37 @@ class core_tool {
 	
 	/**
 	 * 写入缓存
-	 * @param string $name
-	 * @param array() $row
-	 * @return boolean
+	 * @param string $name 缓存文件名
+	 * @param array $row 缓存数组
+	 * @return boolean 是否成功
 	 */
 	static public function wrcache($name,$row){
 		$file = ROOT.'/cache/table/'.$name.'.php';
 		$str = "<?php return array (\r\n";
-		if(is_array($row)){
+		if(is_array($row) && !empty($row)){
 			foreach($row as $k=>$v){
-				$str .= "    '$k'=>'$v',\r\n";
+				if(is_array($v) && !empty($v)){
+					$str .= "    '$k'=>array(\r\n";
+					foreach ($v as $k1 => $v1){
+						$str .= "        '$k1'=>'$v1',\r\n";
+					}
+					$str .= "    ),\r\n";
+				}else{
+					$str .= "    '$k'=>'$v',\r\n";
+				}
 			}
 		}
 		$str .= ");?>";
-		if(file_put_contents($file,$str)){
-			return true;
-		}else{
-			return false;
-		}
+		return file_put_contents($file,$str);
 	}
 	
 	/**
 	 * 读取缓存
 	 * @param string $name
-	 * @return array()|boolean
+	 * @return array|boolean
 	 */
 	static public function rdcache($name){
-		$file = ROOT.'/cache/table/'.$name.'.php';
-		if($row = include($file)){
-			return $row;
-		}else{
-			return false;
-		}
+		return include ROOT.'/cache/table/'.$name.'.php';
 	}
 	
 	/**
@@ -110,7 +109,7 @@ class core_tool {
     }
 
     /**
-     * 从一个二维数组中返回指定键值的数组
+     * 从一个二维数组中返回指定键值的数组(如果有重复的会全部返回)
      *
      * @param array $arr
      * @param string $key
@@ -147,20 +146,6 @@ class core_tool {
     }
 
     /**
-     * 将数组转换为可通过 url 传递的字符串连接
-     *
-     * @param array $args 原数组
-     * @return string
-     */
-    function encode_url_args($args) {
-        $str = '';
-        foreach ($args as $key => $value) {
-            $str .= '&' . rawurlencode($key) . '=' . rawurlencode($value);
-        }
-        return substr($str, 1);
-    }
-
-    /**
      * 将一个二维数组转换为 hashmap
      *
      * @param array $arr 原数组
@@ -189,13 +174,43 @@ class core_tool {
      * @param string $keyField 字段名
      * @return array
      */
-    static function array_group_by(& $arr, $keyField) {
+    static function array_group_by($arr, $keyField) {
         $ret = array();
         foreach ($arr as $row) {
             $key = $row[$keyField];
             $ret[$key][] = $row;
         }
         return $ret;
+    }
+    
+    /**
+     * 将一个二维数组按照指定字段的名分组(重复KEY会覆盖)
+     *
+     * @param array $arr 原数组
+     * @param string $keyField 字段名
+     * @return array
+     */
+    static function array_group_by2($arr, $keyField) {
+    	$ret = array();
+    	foreach ($arr as $row) {
+    		$key = $row[$keyField];
+    		$ret[$key] = $row;
+    	}
+    	return $ret;
+    }
+    
+    /**
+     * 将数组转换为可通过 url 传递的字符串连接
+     *
+     * @param array $args 原数组
+     * @return string
+     */
+    function encode_url_args($args) {
+    	$str = '';
+    	foreach ($args as $key => $value) {
+    		$str .= '&' . rawurlencode($key) . '=' . rawurlencode($value);
+    	}
+    	return substr($str, 1);
     }
 
     /**
